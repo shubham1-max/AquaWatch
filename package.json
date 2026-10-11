@@ -1,0 +1,26 @@
+{
+  "name": "aquawatch",
+  "version": "1.0.0",
+  "description": "Citizen-powered waterlogging intelligence platform",
+  "type": "module",
+  "scripts": {
+    "dev": "concurrently \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev:frontend": "cd frontend && npm run dev",
+    "dev:backend": "cd backend && npm run dev",
+    "build": "cd frontend && npm run build",
+    "test": "node scripts/test-civic-profiles.js && node scripts/test-photo-verification.js",
+    "build:eb": "node package-eb.js",
+    "build:eb:backend": "node package-eb.js --backend-only",
+    "install:all": "npm install && cd frontend && npm install && cd ../backend && npm install"
+  },
+  "keywords": ["waterlogging", "civic-tech", "aws", "hackathon"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@xmldom/xmldom": "^0.9.12",
+    "adm-zip": "^0.6.1"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2"
+  }
+}

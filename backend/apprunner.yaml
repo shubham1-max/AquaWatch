@@ -1,0 +1,15 @@
+version: 1.0
+runtime: nodejs18
+build:
+  commands:
+    pre-build:
+      - npm install
+    build:
+      - echo "Build completed"
+start:
+  command: node server.js
+env:
+  - name: NODE_ENV
+    value: production
+  - name: PORT
+    value: 5000

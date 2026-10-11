@@ -1,0 +1,86 @@
+@import 'leaflet/dist/leaflet.css';
+
+:root {
+  /* AquaWatch Brand Colors */
+  --primary: #0ea5e9;
+  --primary-dark: #0284c7;
+  --bg-main: #ffffff;
+  --bg-card: #ffffff;
+  
+  --text-primary: #1e293b;
+  --text-secondary: #475569;
+  --text-muted: #94a3b8;
+  
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  
+  --radius-sm: 8px;
+  --radius: 12px;
+  --radius-lg: 20px;
+  --radius-full: 9999px;
+  
+  --shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+  --shadow-md: 0 8px 16px rgba(0,0,0,0.08);
+  --shadow-lg: 0 16px 32px rgba(0,0,0,0.12);
+  --shadow-glow: 0 4px 20px rgba(14, 165, 233, 0.4);
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Google Sans Flex', system-ui, -apple-system, sans-serif;
+  background-color: var(--bg-main);
+  color: var(--text-primary);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  overflow: hidden; /* App-like feel, no window scrolling */
+}
+
+code, pre {
+  font-family: 'Google Sans Code', source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* Base Animations */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from { transform: translateY(100%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes float {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+  100% { transform: translateY(0px); }
+}
+
+.fade-in { animation: fadeIn 0.4s ease-out forwards; }
+.slide-up { animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards; }
+.floating { animation: float 3s ease-in-out infinite; }
+
+button {
+  font-family: inherit;
+}
+
+/* Custom Scrollbar for inner cards */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #cbd5e1;
+  border-radius: var(--radius-full);
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #94a3b8;
+}

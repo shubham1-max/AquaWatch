@@ -1,0 +1,63 @@
+# Dependencies
+node_modules/
+*/node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Environment variables - CRITICAL: Never commit these!
+.env
+.env.*
+!.env.example
+backend/.env*
+!backend/.env.example
+frontend/.env*
+!frontend/.env.example
+
+# AI session metadata
+.claude/
+
+# Build outputs
+dist/
+build/
+frontend/dist/
+frontend/build/
+*.log
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Uploads - user generated content
+uploads/
+backend/uploads/
+*.tmp
+
+# Testing
+coverage/
+.nyc_output/
+
+# Misc
+.cache/
+.temp/
+extract-docx.js
+*.zip
+.elasticbeanstalk/
+
+# Package manager
+package-lock.json.backup
+yarn.lock.backup

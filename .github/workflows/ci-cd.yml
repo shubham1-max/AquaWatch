@@ -1,0 +1,158 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main, develop]
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    services:
+      mongodb:
+        image: mongo:7.0
+        ports:
+          - 27017:27017
+        options: >-
+          --health-cmd "mongosh --eval 'db.adminCommand({ ping: 1 })'"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: |
+          cd backend && npm ci
+          cd ../frontend && npm ci
+
+      - name: Run backend linting
+        run: cd backend && npm run lint --if-present
+
+      - name: Run backend tests
+        env:
+          TEST_MONGODB_URI: mongodb://localhost:27017/aquawatch_test
+          NODE_ENV: test
+          ADMIN_API_KEY: test-api-key-for-ci
+        run: cd backend && npm test
+
+      - name: Run frontend linting
+        run: cd frontend && npm run lint
+
+      - name: Build frontend
+        run: cd frontend && npm run build
+
+      - name: Upload coverage
+        uses: codecov/codecov-action@v3
+        with:
+          directory: ./backend/coverage
+          flags: backend
+          name: backend-coverage
+
+  security-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Run npm audit
+        run: |
+          cd backend && npm audit --audit-level=moderate || true
+          cd ../frontend && npm audit --audit-level=moderate || true
+
+      - name: Run Snyk security scan
+        uses: snyk/actions/node@master
+        continue-on-error: true
+        env:
+          SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+        with:
+          args: --severity-threshold=high
+
+  deploy-staging:
+    needs: [lint-and-test, security-scan]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/develop'
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to AWS Amplify (Staging)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Trigger Amplify build
+        run: |
+          aws amplify start-job --app-id ${{ secrets.AMPLIFY_APP_ID }} --branch-name develop --job-type RELEASE
+
+  deploy-production:
+    needs: [lint-and-test, security-scan]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    environment: production
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Deploy to AWS Amplify (Production)
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ap-south-1
+
+      - name: Trigger Amplify build
+        run: |
+          aws amplify start-job --app-id ${{ secrets.AMPLIFY_APP_ID }} --branch-name main --job-type RELEASE
+
+  deploy-elastic-beanstalk:
+    needs: [lint-and-test, security-scan]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies and build bundle
+        run: |
+          npm ci
+          cd backend && npm ci
+          cd ../frontend && npm ci
+          cd ..
+          node package-eb.js
+
+      - name: Deploy to AWS Elastic Beanstalk
+        if: "${{ secrets.EB_APP_NAME != '' && secrets.EB_ENV_NAME != '' }}"
+        uses: einaregilsson/beanstalk-deploy@v22
+        with:
+          aws_access_key: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws_secret_key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          application_name: ${{ secrets.EB_APP_NAME }}
+          environment_name: ${{ secrets.EB_ENV_NAME }}
+          version_label: "v${{ github.run_number }}"
+          region: ap-south-1
+          deployment_package: aquawatch-elasticbeanstalk.zip
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ github.run_number }}
+          release_name: Release ${{ github.run_number }}
+          draft: false
+          prerelease: false

@@ -1,0 +1,36 @@
+{
+  "name": "aquawatch-backend",
+  "version": "1.0.0",
+  "description": "AquaWatch backend API",
+  "type": "module",
+  "main": "server.js",
+  "scripts": {
+    "dev": "nodemon server.js",
+    "start": "node server.js",
+    "test": "node --experimental-vm-modules ./node_modules/jest/bin/jest.js --coverage",
+    "test:watch": "jest --watch",
+    "lint": "eslint .",
+    "migrate": "node scripts/migrate.js"
+  },
+  "dependencies": {
+    "express": "^4.18.2",
+    "mongoose": "^8.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "multer": "^1.4.5-lts.1",
+    "axios": "^1.6.2",
+    "node-cache": "^5.1.2",
+    "express-rate-limit": "^7.1.5",
+    "helmet": "^7.1.0",
+    "express-validator": "^7.0.1",
+    "express-mongo-sanitize": "^2.2.0",
+    "winston": "^3.11.0",
+    "morgan": "^1.10.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3",
+    "eslint": "^8.56.0"
+  }
+}

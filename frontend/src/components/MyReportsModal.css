@@ -1,0 +1,285 @@
+.my-reports-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  z-index: 10000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+@media (min-width: 640px) {
+  .my-reports-overlay {
+    align-items: center;
+    padding: 20px;
+  }
+}
+
+.my-reports-modal {
+  background: #ffffff;
+  width: 100%;
+  max-width: 520px;
+  max-height: 85vh;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.2), 0 10px 10px -5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideUp 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@media (min-width: 640px) {
+  .my-reports-modal {
+    border-radius: 16px;
+    max-height: 75vh;
+  }
+}
+
+.my-reports-drag-handle {
+  width: 36px;
+  height: 4px;
+  background: #cbd5e1;
+  border-radius: 999px;
+  margin: 10px auto 4px auto;
+}
+
+.my-reports-header {
+  padding: 14px 20px 16px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #f1f5f9;
+}
+
+.my-reports-title-wrap {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.my-reports-title-wrap h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0;
+}
+
+.my-reports-count-tag {
+  background: #e0f2fe;
+  color: #0284c7;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 999px;
+}
+
+.my-reports-close-btn {
+  background: #f1f5f9;
+  border: none;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #64748b;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.my-reports-close-btn:hover {
+  background: #e2e8f0;
+  color: #0f172a;
+}
+
+.my-reports-body {
+  padding: 16px 20px;
+  overflow-y: auto;
+  flex: 1;
+}
+
+/* Empty State */
+.my-reports-empty {
+  text-align: center;
+  padding: 40px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.empty-circle-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #e0f2fe;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 16px;
+}
+
+.my-reports-empty h3 {
+  font-size: 16px;
+  font-weight: 700;
+  color: #0f172a;
+  margin: 0 0 8px 0;
+}
+
+.my-reports-empty p {
+  font-size: 13px;
+  color: #64748b;
+  max-width: 340px;
+  margin: 0 0 20px 0;
+  line-height: 1.5;
+}
+
+.my-reports-submit-cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: #0284c7;
+  color: #ffffff;
+  padding: 10px 20px;
+  border-radius: 10px;
+  border: none;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.my-reports-submit-cta:hover {
+  background: #0369a1;
+}
+
+/* Incident Cards */
+.my-reports-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.my-report-card {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background: #ffffff;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.my-report-card:hover {
+  background: #f8fafc;
+  border-color: #cbd5e1;
+  transform: translateY(-1px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.my-report-thumb-col {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+  overflow: hidden;
+  background: #f1f5f9;
+  flex-shrink: 0;
+}
+
+.my-report-thumb-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.my-report-thumb-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0f9ff;
+}
+
+.my-report-info-col {
+  flex: 1;
+  min-width: 0;
+}
+
+.my-report-top-line {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+  gap: 8px;
+}
+
+.my-report-type {
+  font-size: 11px;
+  font-weight: 700;
+  color: #64748b;
+  letter-spacing: 0.5px;
+}
+
+.my-status-pill {
+  font-size: 10px;
+  font-weight: 800;
+  padding: 2px 6px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.my-status-pill.reported {
+  background: #e0f2fe;
+  color: #0284c7;
+}
+
+.my-status-pill.under-review {
+  background: #fff7ed;
+  color: #ea580c;
+  border: 1px solid #ea580c;
+}
+
+.my-status-pill.in-progress {
+  background: #fefce8;
+  color: #a16207;
+}
+
+.my-status-pill.resolved {
+  background: #f0fdf4;
+  color: #16a34a;
+}
+
+.my-report-ward-name {
+  font-size: 14px;
+  font-weight: 700;
+  color: #0f172a;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+
+.my-report-desc {
+  font-size: 12px;
+  color: #475569;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 4px;
+}
+
+.my-report-time-line {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 11px;
+  color: #94a3b8;
+}
+
+.my-report-arrow-col {
+  flex-shrink: 0;
+}
