@@ -498,19 +498,4 @@ For questions or issues:
 - Check API documentation
 
 ---
-
-## 🎯 Hackathon Submission Checklist
-
-- [x] Real-time incident reporting with map
-- [x] MongoDB Atlas integration (not localStorage)
-- [x] Open-Meteo API integration
-- [x] Hotspot detection with explainable scoring
-- [x] Runoff calculator with recommendations
-- [x] Clean, responsive UI
-- [x] AWS deployment ready
-- [x] Comprehensive documentation
-- [x] Working demo with sample data
-
----
-
 **Built with 💧 for better urban water management**
