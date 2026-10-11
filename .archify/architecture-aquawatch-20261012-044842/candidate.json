@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "AquaWatch System Architecture",
+    "subtitle": "Citizen-powered waterlogging intelligence & civic accountability platform for Bengaluru",
+    "output": "aquawatch.html",
+    "quality_profile": "showcase",
+    "visual_preset": "blueprint"
+  },
+  "components": [
+    { "id": "citizens", "type": "external", "label": "Citizens & Officials", "sublabel": "Mobile / Desktop Web", "pos": [40, 300], "size": [130, 60] },
+    { "id": "maps_engine", "type": "frontend", "label": "Leaflet Maps Engine", "sublabel": "243 BBMP Wards GeoJSON", "pos": [280, 150], "size": [140, 60] },
+    { "id": "web_app", "type": "frontend", "label": "AquaWatch UI", "sublabel": "React 18 + Vite SPA", "pos": [280, 300], "size": [140, 60], "tag": ":5173" },
+    { "id": "photo_upload", "type": "frontend", "label": "Photo Evidence UI", "sublabel": "Camera & Live Preview", "pos": [280, 450], "size": [140, 60] },
+    { "id": "auth_security", "type": "security", "label": "Security Guard", "sublabel": "Helmet + Rate Limiter", "pos": [530, 150], "size": [140, 60], "tag": "X-API-Key" },
+    { "id": "api_gateway", "type": "backend", "label": "Express API Server", "sublabel": "Node.js REST :5000", "pos": [530, 300], "size": [140, 60] },
+    { "id": "multer_pipeline", "type": "backend", "label": "Multer Pipeline", "sublabel": "Magic Header Check", "pos": [530, 450], "size": [140, 60] },
+    { "id": "civic_router", "type": "backend", "label": "Civic Router", "sublabel": "BBMP / BWSSB / BSWML", "pos": [780, 150], "size": [140, 60] },
+    { "id": "hotspot_engine", "type": "backend", "label": "Hotspot Engine", "sublabel": "Freshness Scoring", "pos": [780, 300], "size": [140, 60] },
+    { "id": "weather_api", "type": "cloud", "label": "Open-Meteo Weather", "sublabel": "Live Precipitation", "pos": [780, 450], "size": [140, 60] },
+    { "id": "mongo_db", "type": "database", "label": "MongoDB Atlas", "sublabel": "2dsphere Geo Index", "pos": [1030, 220], "size": [140, 60] },
+    { "id": "aws_eb", "type": "cloud", "label": "AWS Elastic Beanstalk", "sublabel": "AL2023 / Node 20", "pos": [1030, 380], "size": [140, 60] }
+  ],
+  "boundaries": [
+    { "kind": "region", "label": "AquaWatch Cloud Platform", "wraps": ["web_app", "maps_engine", "photo_upload", "api_gateway", "auth_security", "multer_pipeline", "civic_router", "hotspot_engine", "mongo_db", "weather_api", "aws_eb"], "pad": 28 },
+    { "kind": "security-group", "label": "Core Application Services", "wraps": ["api_gateway", "auth_security", "multer_pipeline", "civic_router", "hotspot_engine"], "pad": 16 }
+  ],
+  "connections": [
+    { "id": "c-cit-web", "from": "citizens", "to": "web_app", "label": "HTTPS", "variant": "emphasis" },
+    { "id": "c-web-map", "from": "web_app", "to": "maps_engine", "label": "GeoJSON", "fromSide": "top", "toSide": "bottom" },
+    { "id": "c-web-pho", "from": "web_app", "to": "photo_upload", "label": "proof", "fromSide": "bottom", "toSide": "top" },
+    { "id": "c-web-api", "from": "web_app", "to": "api_gateway", "label": "REST API", "variant": "emphasis" },
+    { "id": "c-sec-api", "from": "auth_security", "to": "api_gateway", "label": "verify", "variant": "security", "fromSide": "bottom", "toSide": "top" },
+    { "id": "c-pho-mul", "from": "photo_upload", "to": "multer_pipeline", "label": "multipart", "fromSide": "right", "toSide": "left" },
+    { "id": "c-mul-api", "from": "multer_pipeline", "to": "api_gateway", "label": "verified", "fromSide": "top", "toSide": "bottom" },
+    { "id": "c-api-civ", "from": "api_gateway", "to": "civic_router", "label": "escalate" },
+    { "id": "c-api-hot", "from": "api_gateway", "to": "hotspot_engine", "label": "cluster" },
+    { "id": "c-hot-wea", "from": "hotspot_engine", "to": "weather_api", "label": "rainfall", "fromSide": "bottom", "toSide": "top" },
+    { "id": "c-hot-mdb", "from": "hotspot_engine", "to": "mongo_db", "label": "persist" },
+    { "id": "c-api-mdb", "from": "api_gateway", "to": "mongo_db", "label": "2dsphere query", "variant": "emphasis" },
+    { "id": "c-api-aws", "from": "api_gateway", "to": "aws_eb", "label": "hosted on", "variant": "dashed" }
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Citizen Verification",
+      "items": [
+        "Citizens report waterlogging with GPS coordinates & camera proof",
+        "Status changes (In Progress / Resolved) strictly require fresh ground-truth photos"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Civic Accountability",
+      "items": [
+        "Spatial ray-casting resolves incidents to official BBMP ward boundaries",
+        "Direct emergency helpline & WhatsApp escalation to engineers, corporators, MLAs, and MPs"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Spatial Intelligence",
+      "items": [
+        "MongoDB 2dsphere indexing drives sub-second incident clustering",
+        "Calculates time-decay freshness scores and rainfall runoff volume estimates"
+      ]
+    }
+  ]
+}

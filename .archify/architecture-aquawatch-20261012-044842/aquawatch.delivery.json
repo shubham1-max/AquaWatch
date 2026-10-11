@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "receiptId": "9b278ce9-df04-49c4-bb32-42d42fd4e594",
+  "status": "current",
+  "command": "deliver",
+  "type": "architecture",
+  "input": "C:\\Users\\SHUBHAM S PATIL\\Downloads\\namma-water-log\\namma-water-log\\.archify\\architecture-aquawatch-20261012-044842\\candidate.json",
+  "output": "C:\\Users\\SHUBHAM S PATIL\\Downloads\\namma-water-log\\namma-water-log\\.archify\\architecture-aquawatch-20261012-044842\\aquawatch.html",
+  "specification": {
+    "sha256": "f06fcabac5ea85c9ecc52f6120cf8c11d939f5fce9ae863a451f435bb4985ec2",
+    "bytes": 5019
+  },
+  "artifact": {
+    "sha256": "ab1007d9aee55ce5a8ea89794abef8ee5833a20b46f9d633876cb0838927ae25",
+    "bytes": 773179
+  }
+}
